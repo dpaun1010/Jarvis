@@ -1,18 +1,28 @@
-from agents import coordinator
+from mcp import manager
 
 
-while True:
+manager.connect(
 
-    task = input("\nYou : ")
+    "filesystem",
 
-    if task.lower() in ["exit", "quit"]:
+    "http://localhost:8000"
 
-        break
+)
 
-    print()
+print()
 
-    print(
+print(
 
-        coordinator.execute(task)
+    manager.execute(
+
+        "filesystem",
+
+        "list_directory",
+
+        {
+            "path": "."
+        }
 
     )
+
+)
