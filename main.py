@@ -1,15 +1,33 @@
 import tools
 
-from llm import agent
+from agent import loop
 
 
 while True:
 
-    prompt = input("\nYou : ")
+    goal = input("\nGoal : ")
 
-    if prompt.lower() in ["exit", "quit"]:
+    if goal.lower() in ["exit", "quit"]:
         break
+
+    state = loop.run(goal)
 
     print()
 
-    print(agent.ask(prompt))
+    print("Iterations :", state.iterations)
+
+    print()
+
+    print("Completed :", state.completed)
+
+    print()
+
+    print("History")
+
+    print("----------------")
+
+    for item in state.history:
+
+        print(item)
+
+        print()
