@@ -1,20 +1,23 @@
-from repository import scanner
+from repository import dependency_graph
 
-
-files = scanner.scan(".")
+graph = dependency_graph.build(".")
 
 print()
 
-print(f"Indexed {len(files)} files\n")
+print("Dependency Summary")
 
-for file in files[:20]:
+print("------------------")
 
-    print(
+print(f"Files: {len(graph.dependencies)}")
 
-        f"{file.path}"
+print()
 
-        f" | {file.lines} lines"
+for file in list(graph.dependencies.keys())[:10]:
 
-        f" | {file.size} bytes"
+    print(file)
 
-    )
+    for dep in graph.imports_of(file):
+
+        print("   ->", dep)
+
+    print()

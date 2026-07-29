@@ -1,26 +1,18 @@
 from pathlib import Path
 
+from repository.filter import filter_engine
 from repository.models import FileInfo
-
-
-IGNORE = {
-    ".git",
-    ".venv",
-    "venv",
-    "__pycache__",
-    "node_modules",
-    ".idea",
-    ".vscode",
-    "dist",
-    "build",
-    ".pytest_cache",
-    ".mypy_cache",
-}
 
 
 class RepositoryScanner:
 
-    def scan(self, root: str):
+    def scan(
+
+        self,
+
+        root="."
+
+    ):
 
         root = Path(root)
 
@@ -28,24 +20,26 @@ class RepositoryScanner:
 
         for path in root.rglob("*"):
 
-            if not path.is_file():
-                continue
+            if not filter_engine.allowed(path):
 
-            if any(
-                part in IGNORE
-                for part in path.parts
-            ):
                 continue
 
             try:
 
                 lines = sum(
+
                     1
+
                     for _
+
                     in path.open(
+
                         encoding="utf-8",
+
                         errors="ignore"
+
                     )
+
                 )
 
             except Exception:
@@ -56,22 +50,19 @@ class RepositoryScanner:
 
                 FileInfo(
 
-                    path=path,
+                    path,
 
-                    size=path.stat().st_size,
+                    path.stat().st_size,
 
-                    suffix=path.suffix,
+                    path.suffix,
 
-                    lines=lines
+                    lines
 
                 )
 
             )
 
-        return sorted(
-            files,
-            key=lambda x: str(x.path)
-        )
+        return files
 
 
 scanner = RepositoryScanner()
