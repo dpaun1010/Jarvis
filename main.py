@@ -1,11 +1,11 @@
-from llm import chat
+from agents import coordinator
 
 
 while True:
 
-    prompt = input("\nYou : ")
+    task = input("\nYou : ")
 
-    if prompt.lower() in ["exit", "quit"]:
+    if task.lower() in ["exit", "quit"]:
 
         break
 
@@ -13,6 +13,6 @@ while True:
 
     print(
 
-        chat.ask(prompt)
+        coordinator.execute(task)
 
     )
