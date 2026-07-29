@@ -1,21 +1,15 @@
-print("Starting DeepJarvis...")
+import tools
 
-from core.brain import DeepBrain
+from tools.registry import registry
 
-print("Brain imported successfully.")
+print("Available Tools")
+print("----------------")
 
-brain = DeepBrain()
+for tool in registry.all():
+    print(f"{tool.name} - {tool.description}")
 
-print("Brain initialized.")
+print("\nCalculator Test")
 
-while True:
-    question = input("\nYou: ")
+calc = registry.get("calculator")
 
-    if question.lower() in ("exit", "quit"):
-        break
-
-    print("Thinking...")
-
-    answer = brain.ask(question)
-
-    print("\nDeepJarvis:", answer)
+print(calc.run("25*8+100"))
