@@ -1,15 +1,13 @@
 import tools
 
-from tools.registry import registry
+from pprint import pprint
 
-print("Available Tools")
-print("----------------")
+from tools.manager import manager
 
-for tool in registry.all():
-    print(f"{tool.name} - {tool.description}")
+print("\nAvailable Test\n")
 
-print("\nCalculator Test")
+print(manager.execute("calculator", "125*10"))
 
-calc = registry.get("calculator")
+print()
 
-print(calc.run("25*8+100"))
+pprint(manager.execute("search", "Latest AI News", 3))
