@@ -1,19 +1,19 @@
-from desktop import application
-from desktop import keyboard
-from desktop import mouse
-from desktop import screen
+from execution import python
+from execution import shell
 
+
+result = python.execute("""
+
+for i in range(5):
+
+    print(i)
+
+""")
+
+print(result)
 
 print()
 
-print(screen.size())
+cmd = shell.execute("python --version")
 
-application.run("notepad")
-
-keyboard.write("Hello from DeepJarvis!")
-
-mouse.click()
-
-screen.screenshot("desktop.png")
-
-print("\nAutomation Completed.")
+print(cmd)
