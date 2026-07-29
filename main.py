@@ -1,9 +1,24 @@
-from memory import profile_manager
+from knowledge import manager
 
-profile_manager.set("name", "Deep")
-profile_manager.set("occupation", "AI Engineer")
-profile_manager.set("company", "DeepJarvis Labs")
+
+manager.add_document(
+
+    title="DeepJarvis",
+
+    source="manual",
+
+    content="""
+DeepJarvis is an autonomous AI assistant.
+
+It supports tools, plugins, workflows, memory,
+voice, vision and automation.
+"""
+)
 
 print()
 
-print(profile_manager.show())
+result = manager.search(
+    "What does DeepJarvis support?"
+)
+
+print(result)

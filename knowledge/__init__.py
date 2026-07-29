@@ -1,0 +1,1 @@
+from knowledge.manager import manager
