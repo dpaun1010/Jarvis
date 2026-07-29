@@ -1,33 +1,18 @@
-import tools
-
-from agent import loop
+from llm import chat
 
 
 while True:
 
-    goal = input("\nGoal : ")
+    prompt = input("\nYou : ")
 
-    if goal.lower() in ["exit", "quit"]:
+    if prompt.lower() in ["exit", "quit"]:
+
         break
 
-    state = loop.run(goal)
-
     print()
 
-    print("Iterations :", state.iterations)
+    print(
 
-    print()
+        chat.ask(prompt)
 
-    print("Completed :", state.completed)
-
-    print()
-
-    print("History")
-
-    print("----------------")
-
-    for item in state.history:
-
-        print(item)
-
-        print()
+    )
