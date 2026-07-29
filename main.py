@@ -1,19 +1,15 @@
-from execution import python
-from execution import shell
+import tools
+
+from llm import agent
 
 
-result = python.execute("""
+while True:
 
-for i in range(5):
+    prompt = input("\nYou : ")
 
-    print(i)
+    if prompt.lower() in ["exit", "quit"]:
+        break
 
-""")
+    print()
 
-print(result)
-
-print()
-
-cmd = shell.execute("python --version")
-
-print(cmd)
+    print(agent.ask(prompt))
