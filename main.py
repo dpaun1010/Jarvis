@@ -1,34 +1,20 @@
-from code_agent import indexer
-from code_agent import search
+from repository import scanner
 
-ROOT = "."
 
-print()
-
-print("PROJECT INDEX")
-
-print("----------------")
-
-index = indexer.build(ROOT)
-
-print(
-
-    f"Indexed {len(index)} files."
-
-)
+files = scanner.scan(".")
 
 print()
 
-print("SEARCH RESULTS")
+print(f"Indexed {len(files)} files\n")
 
-print("----------------")
+for file in files[:20]:
 
-for file in search.find(
+    print(
 
-    ROOT,
+        f"{file.path}"
 
-    "class"
+        f" | {file.lines} lines"
 
-):
+        f" | {file.size} bytes"
 
-    print(file)
+    )
