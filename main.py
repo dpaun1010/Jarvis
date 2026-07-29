@@ -2,8 +2,7 @@ import tools
 
 from pprint import pprint
 
-from core.planner import planner
-from tools.manager import manager
+from core.agent import agent
 
 
 while True:
@@ -13,14 +12,8 @@ while True:
     if prompt.lower() in ["exit", "quit"]:
         break
 
-    plan = planner.create(prompt)
+    result = agent.run(prompt)
 
-    print("\nPLAN\n")
-
-    pprint(plan)
-
-    print("\nOUTPUT\n")
-
-    result = manager.execute(plan)
+    print("\n========== RESULT ==========\n")
 
     pprint(result)
