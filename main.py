@@ -1,38 +1,39 @@
-from repository import search
+from repository import call_graph
 
-search.build(".")
-
-print()
-
-print("Classes")
-print("-------")
-
-for cls in search.classes("")[:10]:
-
-    print(cls.name)
-
-    if cls.bases:
-        print("  Bases:", ", ".join(cls.bases))
+repo = call_graph.build(".")
 
 print()
 
-print("Methods")
-print("-------")
+print("Repository Graph")
+print("----------------")
+
+print("Nodes :", len(repo.nodes))
+print("Edges :", len(repo.edges))
+
+print()
 
 count = 0
 
-for file in search.repo.files.values():
+for symbol in sorted(repo.nodes):
 
-    for symbol in file.symbols:
+    edges = repo.neighbours(symbol)
 
-        if symbol.kind == "method":
+    if not edges:
+        continue
 
-            print(
-                f"{symbol.parent}.{symbol.name} "
-                f"({symbol.file}:{symbol.line})"
-            )
+    print(symbol)
 
-            count += 1
+    for edge in edges:
 
-            if count >= 20:
-                raise SystemExit
+        print(
+            "   └──",
+            edge.relation,
+            edge.target,
+        )
+
+    print()
+
+    count += 1
+
+    if count >= 10:
+        break
