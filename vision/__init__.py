@@ -1,0 +1,1 @@
+from vision.manager import manager

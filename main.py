@@ -1,24 +1,19 @@
-from knowledge import manager
+from desktop import application
+from desktop import keyboard
+from desktop import mouse
+from desktop import screen
 
-
-manager.add_document(
-
-    title="DeepJarvis",
-
-    source="manual",
-
-    content="""
-DeepJarvis is an autonomous AI assistant.
-
-It supports tools, plugins, workflows, memory,
-voice, vision and automation.
-"""
-)
 
 print()
 
-result = manager.search(
-    "What does DeepJarvis support?"
-)
+print(screen.size())
 
-print(result)
+application.run("notepad")
+
+keyboard.write("Hello from DeepJarvis!")
+
+mouse.click()
+
+screen.screenshot("desktop.png")
+
+print("\nAutomation Completed.")
