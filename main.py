@@ -2,12 +2,25 @@ import tools
 
 from pprint import pprint
 
+from core.planner import planner
 from tools.manager import manager
 
-print("\nAvailable Test\n")
 
-print(manager.execute("calculator", "125*10"))
+while True:
 
-print()
+    prompt = input("\nYou : ")
 
-pprint(manager.execute("search", "Latest AI News", 3))
+    if prompt.lower() in ["exit", "quit"]:
+        break
+
+    plan = planner.create(prompt)
+
+    print("\nPLAN\n")
+
+    pprint(plan)
+
+    print("\nOUTPUT\n")
+
+    result = manager.execute(plan)
+
+    pprint(result)

@@ -1,18 +1,30 @@
-from typing import Any
-
 from tools.registry import registry
 
 
 class ToolManager:
 
-    def execute(self, tool_name: str, *args, **kwargs) -> Any:
+    def execute(self, plan):
 
-        tool = registry.get(tool_name)
+        outputs = []
 
-        if tool is None:
-            raise ValueError(f"Tool '{tool_name}' not found.")
+        for step in plan["steps"]:
 
-        return tool.run(*args, **kwargs)
+            tool = registry.get(
+                step["tool"]
+            )
+
+            if tool is None:
+                raise Exception(
+                    f"{step['tool']} not registered."
+                )
+
+            result = tool.run(
+                **step["parameters"]
+            )
+
+            outputs.append(result)
+
+        return outputs
 
 
 manager = ToolManager()
