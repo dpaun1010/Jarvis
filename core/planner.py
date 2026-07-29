@@ -1,6 +1,7 @@
 import json
 
 from ollama import Client
+from config import settings
 
 
 SYSTEM_PROMPT = """
@@ -18,11 +19,10 @@ filesystem
 Schema:
 
 {
-    "steps":[
+    "steps": [
         {
-            "tool":"tool_name",
-            "parameters":{
-            }
+            "tool": "tool_name",
+            "parameters": {}
         }
     ]
 }
@@ -32,40 +32,40 @@ Examples:
 User: Hello
 
 {
- "steps":[
-   {
-      "tool":"chat",
-      "parameters":{
-          "prompt":"Hello"
-      }
-   }
- ]
+    "steps": [
+        {
+            "tool": "chat",
+            "parameters": {
+                "prompt": "Hello"
+            }
+        }
+    ]
 }
 
 User: Calculate 20*10
 
 {
- "steps":[
-   {
-      "tool":"calculator",
-      "parameters":{
-          "expression":"20*10"
-      }
-   }
- ]
+    "steps": [
+        {
+            "tool": "calculator",
+            "parameters": {
+                "expression": "20*10"
+            }
+        }
+    ]
 }
 
 User: Search latest AI news
 
 {
- "steps":[
-   {
-      "tool":"search",
-      "parameters":{
-          "query":"latest AI news"
-      }
-   }
- ]
+    "steps": [
+        {
+            "tool": "search",
+            "parameters": {
+                "query": "latest AI news"
+            }
+        }
+    ]
 }
 """
 
@@ -73,12 +73,11 @@ User: Search latest AI news
 class Planner:
 
     def __init__(self):
-
         self.client = Client(
-            host="http://localhost:11434"
+            host=settings.ollama_host
         )
 
-        self.model = "qwen3:8b"
+        self.model = settings.model
 
     def create(self, prompt):
 
@@ -96,9 +95,7 @@ class Planner:
             ]
         )
 
-        return json.loads(
-            response.message.content
-        )
+        return json.loads(response.message.content)
 
 
 planner = Planner()

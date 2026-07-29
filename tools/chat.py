@@ -1,5 +1,6 @@
 from ollama import Client
 
+from config import settings
 from tools.base import Tool
 
 
@@ -10,8 +11,10 @@ class ChatTool(Tool):
     description = "General conversation using Ollama."
 
     def __init__(self):
-        self.client = Client(host="http://localhost:11434")
-        self.model = "qwen3:8b"
+        from config import settings
+
+        self.client = Client(host=settings.ollama_host)
+        self.model = settings.model
 
     def run(self, prompt: str):
 
@@ -30,3 +33,5 @@ class ChatTool(Tool):
         )
 
         return response.message.content
+
+    

@@ -2,7 +2,7 @@ import tools
 
 from pprint import pprint
 
-from core.agent import agent
+from core.orchestrator import orchestrator
 
 
 while True:
@@ -12,8 +12,8 @@ while True:
     if prompt.lower() in ["exit", "quit"]:
         break
 
-    result = agent.run(prompt)
+    result = orchestrator.run(prompt)
 
-    print("\n========== RESULT ==========\n")
+    print()
 
     pprint(result)

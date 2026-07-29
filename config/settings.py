@@ -1,5 +1,15 @@
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from dataclasses import dataclass
+
+
+@dataclass
+class SimpleSettings:
+    model: str = "qwen3:8b"
+    ollama_host: str = "http://localhost:11434"
+
+
+simple_settings = SimpleSettings()
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,3 +39,4 @@ settings = Settings()
 settings.DATA_DIR.mkdir(exist_ok=True)
 settings.LOG_DIR.mkdir(exist_ok=True)
 settings.MEMORY_DIR.mkdir(exist_ok=True)
+
