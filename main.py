@@ -1,36 +1,38 @@
 from repository import search
 
-repo = search.build(".")
-
-print("Classes containing 'agent'")
-print("---------------------------")
-
-for symbol in repo.classes("agent"):
-
-    print(
-        f"{symbol.name:<25}"
-        f"{symbol.file}"
-        f":{symbol.line}"
-    )
+search.build(".")
 
 print()
 
-print("Functions containing 'run'")
-print("--------------------------")
+print("Classes")
+print("-------")
 
-for symbol in repo.functions("run")[:20]:
+for cls in search.classes("")[:10]:
 
-    print(
-        f"{symbol.name:<25}"
-        f"{symbol.file}"
-        f":{symbol.line}"
-    )
+    print(cls.name)
+
+    if cls.bases:
+        print("  Bases:", ", ".join(cls.bases))
 
 print()
 
-print("Files containing 'scheduler'")
-print("----------------------------")
+print("Methods")
+print("-------")
 
-for file in repo.text("scheduler")[:20]:
+count = 0
 
-    print(file)
+for file in search.repo.files.values():
+
+    for symbol in file.symbols:
+
+        if symbol.kind == "method":
+
+            print(
+                f"{symbol.parent}.{symbol.name} "
+                f"({symbol.file}:{symbol.line})"
+            )
+
+            count += 1
+
+            if count >= 20:
+                raise SystemExit

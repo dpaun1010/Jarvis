@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from repository import ast_index
+from repository.database import database
 
 
 class RepositorySearch:
@@ -13,51 +14,49 @@ class RepositorySearch:
         return self
 
     def files(self, text: str):
+
         text = text.lower()
 
         return sorted(
             [
-                file.file
-                for file in self.repo.files.values()
-                if text in Path(file.file).name.lower()
+                file.path
+                for file in database.all()
+                if text in Path(file.path).name.lower()
             ]
         )
 
     def classes(self, text: str):
+
         text = text.lower()
 
         results = []
 
-        for parsed in self.repo.files.values():
+        for file in database.all():
 
-            for symbol in parsed.symbols:
+            for symbol in file.symbols:
 
                 if symbol.kind != "class":
                     continue
 
                 if text in symbol.name.lower():
-
                     results.append(symbol)
 
         return results
 
     def functions(self, text: str):
+
         text = text.lower()
 
         results = []
 
-        for parsed in self.repo.files.values():
+        for file in database.all():
 
-            for symbol in parsed.symbols:
+            for symbol in file.symbols:
 
-                if symbol.kind not in (
-                    "function",
-                    "async",
-                ):
+                if symbol.kind not in ("function", "async"):
                     continue
 
                 if text in symbol.name.lower():
-
                     results.append(symbol)
 
         return results
@@ -68,21 +67,10 @@ class RepositorySearch:
 
         results = []
 
-        for parsed in self.repo.files.values():
+        for file in database.all():
 
-            try:
-
-                content = Path(parsed.file).read_text(
-                    encoding="utf-8",
-                    errors="ignore"
-                )
-
-            except Exception:
-                continue
-
-            if query in content.lower():
-
-                results.append(parsed.file)
+            if query in file.source.lower():
+                results.append(file.path)
 
         return results
 
