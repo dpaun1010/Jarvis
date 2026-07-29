@@ -1,28 +1,34 @@
-from mcp import manager
+from code_agent import indexer
+from code_agent import search
 
+ROOT = "."
 
-manager.connect(
+print()
 
-    "filesystem",
+print("PROJECT INDEX")
 
-    "http://localhost:8000"
+print("----------------")
+
+index = indexer.build(ROOT)
+
+print(
+
+    f"Indexed {len(index)} files."
 
 )
 
 print()
 
-print(
+print("SEARCH RESULTS")
 
-    manager.execute(
+print("----------------")
 
-        "filesystem",
+for file in search.find(
 
-        "list_directory",
+    ROOT,
 
-        {
-            "path": "."
-        }
+    "class"
 
-    )
+):
 
-)
+    print(file)
