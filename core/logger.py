@@ -1,19 +1,25 @@
-from pathlib import Path
-from loguru import logger
-from config.settings import settings
+from datetime import datetime
 
-logger.remove()
 
-logger.add(
-    Path(settings.LOG_DIR) / "jarvis.log",
-    rotation="10 MB",
-    retention="30 days",
-    level=settings.LOG_LEVEL,
-    enqueue=True
-)
+class Logger:
 
-logger.add(
-    lambda msg: print(msg, end=""),
-    colorize=True,
-    level=settings.LOG_LEVEL
-)
+    def info(self, message):
+
+        print(
+            f"[{datetime.now().strftime('%H:%M:%S')}] INFO  {message}"
+        )
+
+    def warning(self, message):
+
+        print(
+            f"[{datetime.now().strftime('%H:%M:%S')}] WARN  {message}"
+        )
+
+    def error(self, message):
+
+        print(
+            f"[{datetime.now().strftime('%H:%M:%S')}] ERROR {message}"
+        )
+
+
+logger = Logger()

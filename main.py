@@ -1,21 +1,43 @@
 import tools
+import core.listeners
 
-from tools.registry import registry
+from core.events import bus
+from core.event_types import *
 
-
-print("\nRegistered Tools\n")
-
-for tool in registry.all():
-
-    print(f"✓ {tool.name}")
 
 print()
 
+bus.publish(
+    SYSTEM_READY
+)
+
 while True:
 
-    command = input("You : ")
+    prompt = input("You : ")
 
-    if command.lower() in ["exit", "quit"]:
+    if prompt.lower() in ["exit", "quit"]:
         break
 
-    print("DeepJarvis >", command)
+    bus.publish(
+        USER_MESSAGE,
+        prompt
+    )
+
+    bus.publish(
+        TOOL_STARTED,
+        "chat"
+    )
+
+    response = f"DeepJarvis > {prompt}"
+
+    bus.publish(
+        TOOL_FINISHED,
+        "chat"
+    )
+
+    bus.publish(
+        ASSISTANT_MESSAGE,
+        response
+    )
+
+    print(response)
