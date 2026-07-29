@@ -1,43 +1,9 @@
-import tools
-import core.listeners
+from memory import profile_manager
 
-from core.events import bus
-from core.event_types import *
-
+profile_manager.set("name", "Deep")
+profile_manager.set("occupation", "AI Engineer")
+profile_manager.set("company", "DeepJarvis Labs")
 
 print()
 
-bus.publish(
-    SYSTEM_READY
-)
-
-while True:
-
-    prompt = input("You : ")
-
-    if prompt.lower() in ["exit", "quit"]:
-        break
-
-    bus.publish(
-        USER_MESSAGE,
-        prompt
-    )
-
-    bus.publish(
-        TOOL_STARTED,
-        "chat"
-    )
-
-    response = f"DeepJarvis > {prompt}"
-
-    bus.publish(
-        TOOL_FINISHED,
-        "chat"
-    )
-
-    bus.publish(
-        ASSISTANT_MESSAGE,
-        response
-    )
-
-    print(response)
+print(profile_manager.show())
