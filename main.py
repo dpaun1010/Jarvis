@@ -1,19 +1,21 @@
 import tools
 
-from pprint import pprint
+from tools.registry import registry
 
-from core.orchestrator import orchestrator
 
+print("\nRegistered Tools\n")
+
+for tool in registry.all():
+
+    print(f"✓ {tool.name}")
+
+print()
 
 while True:
 
-    prompt = input("\nYou : ")
+    command = input("You : ")
 
-    if prompt.lower() in ["exit", "quit"]:
+    if command.lower() in ["exit", "quit"]:
         break
 
-    result = orchestrator.run(prompt)
-
-    print()
-
-    pprint(result)
+    print("DeepJarvis >", command)

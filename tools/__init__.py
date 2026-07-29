@@ -9,3 +9,9 @@ registry.register(ChatTool())
 registry.register(CalculatorTool())
 registry.register(SearchTool())
 registry.register(FileSystemTool())
+
+from tools.registry import registry
+
+from plugins.loader import loader
+
+loader.load(registry)
