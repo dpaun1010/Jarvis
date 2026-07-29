@@ -1,23 +1,36 @@
-from repository import dependency_graph
+from repository import search
 
-graph = dependency_graph.build(".")
+repo = search.build(".")
+
+print("Classes containing 'agent'")
+print("---------------------------")
+
+for symbol in repo.classes("agent"):
+
+    print(
+        f"{symbol.name:<25}"
+        f"{symbol.file}"
+        f":{symbol.line}"
+    )
 
 print()
 
-print("Dependency Summary")
+print("Functions containing 'run'")
+print("--------------------------")
 
-print("------------------")
+for symbol in repo.functions("run")[:20]:
 
-print(f"Files: {len(graph.dependencies)}")
+    print(
+        f"{symbol.name:<25}"
+        f"{symbol.file}"
+        f":{symbol.line}"
+    )
 
 print()
 
-for file in list(graph.dependencies.keys())[:10]:
+print("Files containing 'scheduler'")
+print("----------------------------")
+
+for file in repo.text("scheduler")[:20]:
 
     print(file)
-
-    for dep in graph.imports_of(file):
-
-        print("   ->", dep)
-
-    print()
