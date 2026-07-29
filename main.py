@@ -1,39 +1,26 @@
-from repository import call_graph
+from context import context_builder
 
-repo = call_graph.build(".")
+package = context_builder.build("scheduler")
 
 print()
 
-print("Repository Graph")
+print("Context Package")
 print("----------------")
 
-print("Nodes :", len(repo.nodes))
-print("Edges :", len(repo.edges))
+print("Objective:", package.objective)
 
 print()
 
-count = 0
+print("Files")
 
-for symbol in sorted(repo.nodes):
+print("-----")
 
-    edges = repo.neighbours(symbol)
+for chunk in package.chunks:
 
-    if not edges:
-        continue
+    print(chunk.file)
 
-    print(symbol)
+    print("Reason :", chunk.reason)
 
-    for edge in edges:
-
-        print(
-            "   └──",
-            edge.relation,
-            edge.target,
-        )
+    print("Lines  :", len(chunk.source.splitlines()))
 
     print()
-
-    count += 1
-
-    if count >= 10:
-        break
